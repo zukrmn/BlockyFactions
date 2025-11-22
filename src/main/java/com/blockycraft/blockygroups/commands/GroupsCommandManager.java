@@ -164,11 +164,11 @@ public class GroupsCommandManager implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            player.sendMessage("§bUse: /gc <message>");
+            player.sendMessage(langManager.get(lang, "usage.gc"));
             return true;
         }
         String message = String.join(" ", args);
-        String formattedMessage = "§f[§bPrivado§f]§9 " + player.getName() + ":§b " + message;
+
 
         Set<String> members = new HashSet<>();
         members.addAll(group.getMembers());
@@ -183,12 +183,13 @@ public class GroupsCommandManager implements CommandExecutor {
         for (String nick : members) {
             Player p = plugin.getServer().getPlayer(nick);
             if (p != null && p.isOnline()) {
-                p.sendMessage(formattedMessage);
+                String targetLang = plugin.getGeoIPManager().getPlayerLanguage(p);
+                p.sendMessage(langManager.get(targetLang, "chat.format", player.getName(), message));
                 sent = true;
             }
         }
         if (!sent) {
-            player.sendMessage("§cNenhum outro membro da sua grupo esta online para receber a mensagem.");
+            player.sendMessage(langManager.get(lang, "error.no-members-online"));
         }
         return true;
     }
@@ -196,7 +197,7 @@ public class GroupsCommandManager implements CommandExecutor {
     private boolean handleSetBaseCommand(Player player, String lang) {
         Group group = plugin.getGroupManager().getPlayerGroup(player.getName());
         if (group == null || !group.getLeader().equalsIgnoreCase(player.getName())) {
-            player.sendMessage("§cApenas o líder do grupo pode definir a base.");
+            player.sendMessage(langManager.get(lang, "error.leader-only-base"));
             return true;
         }
         Location loc = player.getLocation();
