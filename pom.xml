@@ -33,22 +33,41 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.7.3-beta-SNAPSHOT</version> <!-- A versão é apenas descritiva -->
-            <scope>system</scope>
-            <systemPath>${minecraft.server.path}/server.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <!-- Dependencia do BlockyGeoIP -->
         <dependency>
             <groupId>com.blockycraft</groupId>
             <artifactId>blockygeoip</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${minecraft.server.path}/plugins/BlockyGeoIP.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
         <defaultGoal>clean package</defaultGoal>
         <finalName>${project.artifactId}</finalName>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
         <plugins>
             <!-- Plugin do Compilador Java -->
